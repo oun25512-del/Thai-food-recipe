@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ครัวไทยแท้ — รวมเมนูและสูตรอาหารไทยต้นตำรับ เพิ่มเมนูของตัวเองได้" />
+  <title>ครัวไทยแท้ 🍜</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="hero-emoji">🍜</span>
+    <h1>ครัวไทยแท้</h1>
+    <p>เมนูอาหารและสูตรอาหารไทย • รสชาติต้นตำรับ</p>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="ค้นหาเมนู เช่น ผัดไทย, แกง..." />
+      <button id="searchBtn">🔍 ค้นหา</button>
+    </div>
+  </div>
+
+  <!-- CATEGORY NAV -->
+  <nav class="nav-cats">
+    <button class="cat-btn active" data-cat="ทั้งหมด">ทั้งหมด</button>
+    <button class="cat-btn" data-cat="กับข้าว">🥘 กับข้าว</button>
+    <button class="cat-btn" data-cat="ก๋วยเตี๋ยว">🍜 ก๋วยเตี๋ยว</button>
+    <button class="cat-btn" data-cat="ยำ-ลาบ">🥗 ยำ-ลาบ</button>
+    <button class="cat-btn" data-cat="ของหวาน">🍡 ของหวาน</button>
+    <button class="cat-btn" data-cat="ต้ม-แกง">🍲 ต้ม-แกง</button>
+    <button class="cat-btn" data-cat="ทอด-ย่าง">🍗 ทอด-ย่าง</button>
+    <button class="cat-btn" data-cat="น้ำพริก">🌶 น้ำพริก</button>
+    <button class="cat-btn" data-cat="เมนูของฉัน">⭐ ของฉัน</button>
+  </nav>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="section-title">
+      🔥 เมนูทั้งหมด
+      <span class="count-badge" id="countBadge">0 เมนู</span>
+    </div>
+    <div class="top-actions">
+      <button class="btn-mymenus" id="btnMyMenus">📋 วัตถุดิบของฉัน</button>
+      <button class="btn-add" id="btnAddMenu">＋ เพิ่มเมนู</button>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="section">
+    <div class="grid" id="recipeGrid"></div>
+  </div>
+
+  <!-- ===== MODAL: Recipe Detail ===== -->
+  <div class="modal-bg" id="detailModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div id="modalTitle" style="flex:1"></div>
+        <button class="close-btn" id="closeDetail">✕</button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: Add Menu ===== -->
+  <div class="modal-bg" id="addModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>＋ เพิ่มเมนูของคุณ</h3>
+        <button class="close-btn" id="closeAdd">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label>ชื่อเมนู *</label>
+        <input type="text" id="fName" placeholder="เช่น แกงป่าหมู" />
+      </div>
+
+      <div class="form-group">
+        <label>เลือก Emoji</label>
+        <div class="emoji-row" id="emojiRow">
+          <div class="emoji-opt selected" data-e="🍽️">🍽️</div>
+          <div class="emoji-opt" data-e="🥘">🥘</div>
+          <div class="emoji-opt" data-e="🍜">🍜</div>
+          <div class="emoji-opt" data-e="🍲">🍲</div>
+          <div class="emoji-opt" data-e="🥗">🥗</div>
+          <div class="emoji-opt" data-e="🍛">🍛</div>
+          <div class="emoji-opt" data-e="🍚">🍚</div>
+          <div class="emoji-opt" data-e="🍗">🍗</div>
+          <div class="emoji-opt" data-e="🥩">🥩</div>
+          <div class="emoji-opt" data-e="🍡">🍡</div>
+          <div class="emoji-opt" data-e="🌶">🌶</div>
+          <div class="emoji-opt" data-e="🫕">🫕</div>
+          <div class="emoji-opt" data-e="🥚">🥚</div>
+          <div class="emoji-opt" data-e="🦐">🦐</div>
+          <div class="emoji-opt" data-e="🐟">🐟</div>
+          <div class="emoji-opt" data-e="🫓">🫓</div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>หมวดหมู่</label>
+          <select id="fCat">
+            <option>กับข้าว</option>
+            <option>ก๋วยเตี๋ยว</option>
+            <option>ยำ-ลาบ</option>
+            <option>ของหวาน</option>
+            <option>ต้ม-แกง</option>
+            <option>ทอด-ย่าง</option>
+            <option>น้ำพริก</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>เวลาทำ</label>
+          <input type="text" id="fTime" placeholder="เช่น 20 นาที" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>ระดับความยาก</label>
+          <select id="fLevel">
+            <option>ง่าย</option>
+            <option>ปานกลาง</option>
+            <option>ยาก</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ความเผ็ด</label>
+          <select id="fSpicy">
+            <option value="0">ไม่เผ็ด</option>
+            <option value="1">เผ็ดน้อย</option>
+            <option value="2">เผ็ดกลาง</option>
+            <option value="3">เผ็ดมาก</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>วัตถุดิบ * <small style="color:var(--muted);font-weight:400">(ปริมาณ + ชื่อวัตถุดิบ)</small></label>
+        <div class="ing-list-form" id="ingList"></div>
+        <button class="btn-add-ing" id="btnAddIng">＋ เพิ่มวัตถุดิบ</button>
+      </div>
+
+      <div class="form-group">
+        <label>วิธีทำ <small style="color:var(--muted);font-weight:400">(แต่ละบรรทัด = 1 ขั้นตอน)</small></label>
+        <textarea id="fSteps" placeholder="1. ตั้งกระทะ...&#10;2. ใส่วัตถุดิบ...&#10;3. ปรุงรส..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>เคล็ดลับ (ไม่บังคับ)</label>
+        <input type="text" id="fTip" placeholder="เช่น ใช้ไฟแรงจะหอมกว่า" />
+      </div>
+
+      <button class="btn-submit" id="submitMenu">✓ บันทึกเมนู</button>
+    </div>
+  </div>
+
+  <!-- ===== MODAL: My Ingredients ===== -->
+  <div class="modal-bg" id="myModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>📋 วัตถุดิบเมนูของฉัน</h3>
+        <button class="close-btn" id="closeMyModal">✕</button>
+      </div>
+      <div id="myIngBody"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="text-align:center;padding:1.5rem 1rem 2rem;border-top:1px solid var(--border);margin-top:1rem">
+    <p style="font-size:13px;color:var(--muted)">เว็บไซต์เพื่อการศึกษา</p>
+    <p style="font-size:13px;color:var(--accent);font-weight:600;margin-top:4px">by Setthawut Himarat</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
